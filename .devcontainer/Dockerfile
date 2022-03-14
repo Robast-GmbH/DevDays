@@ -23,6 +23,18 @@ ENV PYTHONPATH=/opt/ros/${ROS_DISTRO}/lib/python3.8/site-packages
 ENV ROS_PYTHON_VERSION=3
 ENV ROS_VERSION=2
 
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg2 \
+  && curl http://repo.ros2.org/repos.key | apt-key add - \
+  && sh -c 'echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros2-latest.list' \
+  && apt-get update && apt-get install -y \
+    ros-${ROS_DISTRO}-desktop \
+    ros-${ROS_DISTRO}-gazebo* \
+    python3-argcomplete \
+  && rm -rf /var/lib/apt/lists/*
+
+
 # install bootstrap tools
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
@@ -46,11 +58,11 @@ RUN colcon mixin add default \
     colcon metadata update
 
 # install ros2 packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-${ROS_DISTRO}-desktop \
-    ros-${ROS_DISTRO}-gazebo* \
-    && rm -rf /var/lib/apt/lists/* \
-    && rosdep init || echo "rosdep already initialized"
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     ros-${ROS_DISTRO}-desktop \
+#     ros-${ROS_DISTRO}-gazebo* \
+#     && rm -rf /var/lib/apt/lists/* \
+#     && rosdep init || echo "rosdep already initialized"
 
 RUN apt-get update && apt-get install -y\
     python3-colcon-common-extensions\
