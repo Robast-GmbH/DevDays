@@ -12,7 +12,7 @@ def generate_launch_description():
         Node(
             package='py_pub',
             namespace='',
-            executable='talker',
+            executable='simple_publisher',
             name='SachAn'
         ),
     ])
