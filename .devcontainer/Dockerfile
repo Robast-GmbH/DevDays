@@ -32,6 +32,8 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-desktop \
     ros-${ROS_DISTRO}-gazebo* \
     python3-argcomplete \
+    python3-colcon-common-extensions \
+    python3-colcon-mixin \
   && rm -rf /var/lib/apt/lists/*
 
 
@@ -39,8 +41,6 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
     git \
-    python3-colcon-common-extensions \
-    python3-colcon-mixin \
     python3-rosdep \
     python3-vcstool \
     && rm -rf /var/lib/apt/lists/*
