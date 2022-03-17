@@ -6,9 +6,12 @@ from std_msgs.msg import String
 class SimplePublisher(Node):
 
     def __init__(self):
-        super().__init__('simple_publisher')
-        self.publisher_ = self.create_publisher(String, 'topic', 10)
+        # erstellt base node mit namen "simple_publisher"
+        super().__init__('simple_publisher') 
+        # fügt der node einen publisher hinzu, der auf das topic namens "topic" eine nachricht vom typ "String" published
+        self.publisher_ = self.create_publisher(String, 'topic', 10) 
         timer_period = 0.5  # seconds
+        # kleiner timer, der alle "timer_period" sekunden die angegebene funktion aufruft
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
