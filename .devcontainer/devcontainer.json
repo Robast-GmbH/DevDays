@@ -1,6 +1,7 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
-	"dockerFile": "Dockerfile",
+	// "dockerFile": "Dockerfile",
+	"image": "ghcr.io/robast-gmbh/devdays:linux",
 	"build": {
 		"args": {
 			"WORKSPACE": "${containerWorkspaceFolder}"
@@ -11,7 +12,10 @@
 		"--name=DevDays",
 		"--cap-add=SYS_PTRACE",
 		"--network=host",
+		"--security-opt=seccomp:unconfined",
+		"--security-opt=apparmor:unconfined",
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix"
+		
 	],
 	"postStartCommand": "/entrypoint.sh",
 	"containerEnv": { "DISPLAY": "${localEnv:DISPLAY}" },
