@@ -23,6 +23,7 @@ ENV PYTHONPATH=/opt/ros/${ROS_DISTRO}/lib/python3.8/site-packages
 ENV ROS_PYTHON_VERSION=3
 ENV ROS_VERSION=2
 
+# Install ROS2
 RUN apt-get update && apt-get install -y \
     curl \
     gnupg2 \
@@ -32,8 +33,6 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-desktop \
     ros-${ROS_DISTRO}-gazebo* \
     python3-argcomplete \
-    python3-colcon-common-extensions \
-    python3-colcon-mixin \
   && rm -rf /var/lib/apt/lists/*
 
 
@@ -43,19 +42,22 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     git \
     python3-rosdep \
     python3-vcstool \
+    python3-argcomplete \
+    python3-colcon-common-extensions \
+    # python3-colcon-mixin \
     && rm -rf /var/lib/apt/lists/*
 
 # bootstrap rosdep
 RUN rosdep init && \
   rosdep update --rosdistro $ROS_DISTRO
 
-# setup colcon mixin and metadata
-RUN colcon mixin add default \
-      https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml && \
-    colcon mixin update && \
-    colcon metadata add default \
-      https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml && \
-    colcon metadata update
+# # setup colcon mixin and metadata
+# RUN colcon mixin add default \
+#       https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml && \
+#     colcon mixin update && \
+#     colcon metadata add default \
+#       https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml && \
+#     colcon metadata update
 
 # install ros2 packages
 # RUN apt-get update && apt-get install -y --no-install-recommends \

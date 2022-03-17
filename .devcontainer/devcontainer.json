@@ -8,6 +8,7 @@
 	},
 	"remoteUser": "ubuntu",
 	"runArgs": [
+		"--name=DevDays",
 		"--cap-add=SYS_PTRACE",
 		"--network=host",
 		"--volume=/tmp/.X11-unix:/tmp/.X11-unix"
