@@ -11,6 +11,11 @@ ros2 topic info
 
 
 ros2 interface show
+ros2 interface list 
 
-ros2 pkg create --build-type ament_python <pkg name> --dependencies rclpy <andere noch nötige>
+ros2 pkg create --build-type ament_python <pkg name> --dependencies rclpy <andere noch nötige z.B. std_msgs>
 colcon build --symlink-install
+
+
+nettes tool:
+rqt
