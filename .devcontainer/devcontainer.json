@@ -1,7 +1,7 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
 	// "dockerFile": "Dockerfile",
-	"image": "ghcr.io/robast-gmbh/devdays:linux",
+	"image": "ghcr.io/robast-gmbh/devdays:windows",
 	"build": {
 		"args": {
 			"WORKSPACE": "${containerWorkspaceFolder}"
