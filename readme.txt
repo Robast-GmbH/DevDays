@@ -6,9 +6,11 @@ ros2 topic echo <topic>
 auf topic publishen
 ros2 topic pub <topic> <msg type> <data>
 
-auflisten aller topics
 ros2 topic list
-
 ros2 topic info
 
+
 ros2 interface show
+
+ros2 pkg create --build-type ament_python <pkg name> --dependencies rclpy <andere noch nötige>
+colcon build --symlink-install
