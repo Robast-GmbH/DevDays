@@ -1,3 +1,4 @@
+import math
 import rclpy
 from rclpy.node import Node
 
@@ -11,6 +12,13 @@ class LidarDrive(Node):
     def __init__(self):
         #namen
         super().__init__('lidardrive')
+
+        self.MODE_DRIVE = 0
+        self.MODE_TURN = 1
+
+        self.mode = self.MODE_DRIVE
+
+
         #publisher
         self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
 
@@ -28,11 +36,6 @@ class LidarDrive(Node):
 
         self.publisher_.publish(self.resetMsg)
 
-        # start driving
-        msg = Twist()
-        msg.linear = Vector3(x = 0.5)
-        self.publisher_.publish(msg)
-
         timer_period = 0.5  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
@@ -41,11 +44,29 @@ class LidarDrive(Node):
         self.i += 1
 
     def lidar_callback(self, msg: LaserScan):
+        print(f"Mode: {self.mode}")
 
-        for i in range(10):
-            if msg.ranges[len(msg.ranges) - i - 1] < 0.5 or msg.ranges[i] < 0.5:
-                self.publisher_.publish(self.resetMsg)
+        if self.mode == self.MODE_DRIVE:
+            self.publisher_.publish(Twist(linear=Vector3(x = 0.5), angular=Vector3()))
+            for i in range(10):
+                # wenn er nur noch 50cm platz hat...
+                if msg.ranges[len(msg.ranges) - i - 1] < 1 or msg.ranges[i] < 1:
+                    # drehen starten
+                    self.mode = self.MODE_TURN
+                    
 
+        elif self.mode == self.MODE_TURN:
+
+            self.publisher_.publish(Twist(linear=Vector3(), angular=Vector3(z=0.2)))
+
+            longest = max(msg.ranges)
+
+            if math.isinf(longest):
+                longest = 3.4
+
+            diff = longest - msg.ranges[0]
+            if abs(diff) < 0.05 or math.isinf(msg.ranges[0]):
+                self.mode = self.MODE_DRIVE
 
 
 def main(args=None):
