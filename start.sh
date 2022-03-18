@@ -3,4 +3,4 @@ echo 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/workspaces/DevDays/src/turtle
 echo 'export TURTLEBOT3_MODEL=waffle_pi' >> ~/.bashrc
 source ~/.bashrc
 
-ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+ros2 launch turtlebot3_gazebo empty_world.launch.py
