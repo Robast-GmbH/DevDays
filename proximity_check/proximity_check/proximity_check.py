@@ -55,7 +55,7 @@ class ProximityChecker(Node):
                         msg.angular.z = 1.0
 
                 else:
-                        msg.linear.x = 0.5
+                        msg.linear.x = 0.25
                         msg.angular.z = 0.0
 
                 self.publisher_.publish(msg)
