@@ -17,6 +17,7 @@ class LidarDrive(Node):
         self.MODE_TURN = 1
 
         self.mode = self.MODE_DRIVE
+        self.vel = 0.5
 
 
         #publisher
@@ -44,13 +45,17 @@ class LidarDrive(Node):
         self.i += 1
 
     def lidar_callback(self, msg: LaserScan):
-        print(f"Mode: {self.mode}")
 
         if self.mode == self.MODE_DRIVE:
-            self.publisher_.publish(Twist(linear=Vector3(x = 0.5), angular=Vector3()))
-            for i in range(10):
+            self.publisher_.publish(Twist(linear=Vector3(x = float(self.vel)), angular=Vector3()))
+            for i in range(20):
                 # wenn er nur noch 50cm platz hat...
-                if msg.ranges[len(msg.ranges) - i - 1] < 1 or msg.ranges[i] < 1:
+
+                primaryDistance = msg.ranges[0]
+
+                self.vel = max(min(primaryDistance - 1, 0.5), 0.1)
+
+                if msg.ranges[-i] < 1 or msg.ranges[i] < 1:
                     # drehen starten
                     self.mode = self.MODE_TURN
                     
@@ -60,9 +65,6 @@ class LidarDrive(Node):
             self.publisher_.publish(Twist(linear=Vector3(), angular=Vector3(z=0.2)))
 
             longest = max(msg.ranges)
-
-            if math.isinf(longest):
-                longest = 3.4
 
             diff = longest - msg.ranges[0]
             if abs(diff) < 0.05 or math.isinf(msg.ranges[0]):
